@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+html, body{
+    height: 100%;
+}
+
+body{
+    padding: 0; margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+app-life{
+
+}
+
+table, th, td {
+    border: 1px solid #e2e2e2;
+    border-collapse: collapse;
+}
+
+td{
+    width: 10px;
+    height: 10px;
+}
+
+.live{
+    background: black;
+}

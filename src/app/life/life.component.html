@@ -1,0 +1,13 @@
+<table>
+  <tr *ngFor="let row of generation; let y = index">
+    <td *ngFor="let col of row; let x = index" [ngClass]="{'live':col}" (click)="toggle([y,x])"></td>
+  </tr>
+</table>
+<br>
+<!--<input [ngModel] ="range" type="text" value= "range">-->
+<button (click)="figure()">figure1</button>
+<button (click)="randomGenerate()">random</button>
+<button (click)="clear()">clear</button>
+<button (click)="next()">next</button>
+<button (click)="start()">start</button>
+<button (click)="stop()">stop</button>
