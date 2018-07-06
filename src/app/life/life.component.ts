@@ -102,7 +102,6 @@ export class LifeComponent implements OnInit {
         } else {
           this.generation[y][x] = false;
         }
-        // this.generation[y][x] = random ? Math.random() >= this.range : false;
       }
     }
   }
