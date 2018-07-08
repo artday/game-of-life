@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs/index";
+import {Component, Input, OnInit} from '@angular/core';
+import {GenerationService} from '../generation.service';
 
 @Component({
   selector: 'app-life',
@@ -8,37 +8,28 @@ import {Observable} from "rxjs/index";
 })
 export class LifeComponent implements OnInit {
 
-  genCnt = 1;
-  lifeSize = 50;
-  range = 0.70;
+  genCnt: number;
+  lifeSize: number = 50;
+  generation: Boolean[][];
+  randomRange: number = -0.7;
+  speed = -300;
+
+  isClear: boolean;
+  isPlay: boolean;
 
   private interval;
-
-  generation: boolean[][] = [];
   nextGeneration = [];
 
-  constructor() {
-  }
-
-  generate(random = false) {
-    for (let y = 0; y < this.lifeSize; y++) {
-      this.generation[y] = [];
-      for (let x = 0; x < this.lifeSize; x++) {
-        this.generation[y][x] = random ? Math.random() >= this.range : false;
-      }
-    }
-  }
-
-  randomGenerate() {
-    this.generate(true);
+  constructor(private service: GenerationService) {
   }
 
   toggle(pos: number[]) {
+    /* TODO: add cells changed manually to drawArray for saving figure; */
     this.generation[pos[0]][pos[1]] = !this.generation[pos[0]][pos[1]];
     this.neighborsPos(pos);
   }
 
-  next() {
+  next(): void {
     this.generation
       .forEach((row, y) => row
         .forEach((col, x) => {
@@ -57,7 +48,6 @@ export class LifeComponent implements OnInit {
     }
     this.nextGeneration.forEach(pos => this.toggle(pos));
     this.nextGeneration = [];
-    console.log('next');
   }
 
   neighborsPos(pos: number[]) {
@@ -76,22 +66,27 @@ export class LifeComponent implements OnInit {
     return neighbors;
   }
 
-  start() {
-    this.stop();
-    this.interval = setInterval(() => this.next(), 100);
-    console.log('start');
+  random() {
+    this.generateRandom();
   }
 
-  clear() {
-    this.stop();
-    this.generate();
-    console.log('clear');
+  clear(): void {
+    this.generateEmpty();
   }
 
-  stop() {
+  start(): void {
+    this.stop();
+    this.isPlay = true;
+    this.interval = setInterval(() => this.next(), this.speed * (-1));
+    console.log(this.speed * (-1));
+  }
+
+  stop(): void {
     clearInterval(this.interval);
-    console.log('stop');
+    this.isPlay = false;
   }
+
+
 
   figure() {
     for (let y = 0; y < this.lifeSize; y++) {
@@ -106,9 +101,73 @@ export class LifeComponent implements OnInit {
     }
   }
 
-
-  ngOnInit() {
-    this.generate();
+  private generateEmpty(): void {
+    this.setGeneration(this.emptyGeneration());
   }
 
+  private generateRandom(): void {
+    this.setGeneration(this.randomGeneration());
+  }
+
+  private setGeneration(serviceGeneration): void {
+    this.stop();
+    this.generation = serviceGeneration;
+  }
+
+  private randomGeneration(): Boolean[][] {
+    this.isClear = false;
+    return this.service.randomGeneration(this.lifeSize, this.randomRange * (-1));
+  }
+
+  private emptyGeneration(): Boolean[][] {
+    this.isClear = true;
+    return this.service.emptyGeneration(this.lifeSize);
+  }
+
+  ngOnInit() {
+    this.setGeneration(this.emptyGeneration());
+    this.genCnt = 1;
+  }
+
+  show (){
+    console.log(this.randomRange * (-1));
+  }
+
+  /*generate(random = false) {
+  /!*
+  1)
+  for (let y = 0; y < this.lifeSize; y++) {
+    this.generation[y] = [];
+    for (let x = 0; x < this.lifeSize; x++) {
+      this.generation[y][x] = random ? Math.random() >= this.range : false;
+    }
+  }
+
+  2)
+  this.callInCycle(0, this.lifeSize - 1, (y) => {
+    let Y = this.generation[y] = [];
+    this.callInCycle(0, this.lifeSize - 1, (x) => {
+      Y[x] = random ? Math.random() >= this.range : false;
+    });
+  });
+
+  *!/
+
+  //const fn = (arr, val, size) => arr.length < size ? (arr.push(val()) , fn(arr, val(), size)) : arr;
+  // fn(this.generation, 50, []).forEach(res => fn(res, 50, false));
+  // return ( fn([], [], 50).map(res => fn(res, false , 50)) );
+  //let arr=[];
+  //fn(arr, function(){return []}, 50).forEach(res => fn(res, function(){return Math.random() >= this.range}, 50))();
+  //return arr;
+
+  const fn = (arr, val, size) => arr.length < size ? (arr.push(val()) , fn(arr, val, size)) : arr;
+  // return ( fn([], [], 50).map(res => fn(res, false , 50)) );
+  return fn([], () => [] , 50).map(res => fn(res, () => Math.random() >= this.range, 50 ));
+}*/
+
+  /*  callInCycle(from, to, callable) {
+    for (let i = from; i <= to; i++) {
+      callable(i);
+    }
+  }*/
 }

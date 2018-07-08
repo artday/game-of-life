@@ -3,10 +3,46 @@
     <td *ngFor="let col of row; let x = index" [ngClass]="{'live':col}" (click)="toggle([y,x])"></td>
   </tr>
 </table>
-<br>
-<button (click)="figure()">figure1</button>
-<button (click)="randomGenerate()">random</button>
-<button (click)="clear()">clear</button>
-<button (click)="next()">next</button>
-<button (click)="start()">start</button>
-<button (click)="stop()">stop</button>
+<div class="ctrl">
+  <div class="ctrl-gr">
+    Random: <br>
+    <!--<mat-slider min="0.25" max="0.75" step="0.05" [(ngModel)]="randomRange" ></mat-slider>-->
+    <input #range  title="Random Range"
+           type="range" min="-0.9"
+           max="-0.50" step="0.1"
+           [(ngModel)]="randomRange"
+           style="padding: 1rem 0">
+    <br>
+    <button (click)="random()">generate ({{ range.value*(-1) }})</button>
+  </div>
+  <br><hr><br>
+  <div class="ctrl-gr">
+    Speed <br>
+    <input title="Speed Range"
+           type="range" min="-1000"
+           max="-100" step="100"
+           [(ngModel)]="speed"
+           (change)="isPlay? start() : false"
+           style="padding: 1rem 0">
+    <br>
+    <ng-container *ngIf="isPlay; else play ">
+      <button (click)="stop()">stop</button>
+    </ng-container>
+    <ng-template #play>
+      <button (click)="start()" [disabled] = "isPlay" >start</button>
+    </ng-template>
+
+    <button (click)="clear()" [disabled] = "isClear">clear</button>
+    <br>
+
+
+  </div>
+
+  <!--<button (click)="next()">next</button>
+  <button (click)="start()">start</button>
+  <button (click)="stop()">stop</button>
+
+  <button (click)="figure()">figure1</button>-->
+  <button (click)="show()">show</button>
+
+</div>

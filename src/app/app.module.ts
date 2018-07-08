@@ -1,10 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { LifeComponent } from './life/life.component';
-import { MatGridListModule } from '@angular/material/grid-list';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MatSliderModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -13,8 +14,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   ],
   imports: [
     BrowserModule,
-    MatGridListModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule, ReactiveFormsModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
