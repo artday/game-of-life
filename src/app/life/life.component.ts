@@ -61,6 +61,7 @@ export class LifeComponent implements OnInit {
     this.isPlay = false;
     clearInterval(this.interval);
   }
+
   /* Generate Random Generation */
   private generateRandom(): void {
     this.setGeneration(this.randomGeneration());
