@@ -26,7 +26,6 @@ export class LifeComponent implements OnInit {
     this.isClear = false;
     this.genCnt = this.genCnt === 0 ? 1: this.genCnt;
     this.drawed.push(pos);
-
   }
   
   /* invert cell value */
@@ -111,7 +110,7 @@ export class LifeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setGeneration(this.emptyGeneration());
+    this.generateEmpty();
     this.genCnt = 0;
   }
 }
