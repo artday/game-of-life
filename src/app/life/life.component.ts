@@ -17,7 +17,7 @@ export class LifeComponent implements OnInit {
   isPlay: boolean;
   drawed: number[][] = [];
 
-  private interval: number;
+  private interval;
 
   constructor(private service: GenerationService) {}
 
