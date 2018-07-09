@@ -44,7 +44,7 @@ export class GenerationService {
   }
 
   /* Check if must be inverted according Life Conditions */
-  private mustBeToggledByRules(alive: boolean, neighborsCnt: number) {
+  private mustBeToggledByRules(alive: boolean, neighborsCnt: number): boolean {
     return (!alive && neighborsCnt === 3) ||
       ((neighborsCnt > 3 || neighborsCnt < 2) && alive);
   }
